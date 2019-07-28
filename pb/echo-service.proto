@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package echo.service;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+message EchoMessage {
+  string value = 1 [(validate.rules).string = {
+    min_bytes: 3
+  }];
+}
+
+service EchoService {
+  rpc Echo(EchoMessage) returns (EchoMessage) {
+    option (google.api.http) = {
+      post: "/api/echo"
+      body: "*"
+    };
+  }
+}
